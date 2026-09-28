@@ -1,9 +1,9 @@
 camera_id,slice_type,frames,risk,rationale
-front,normal,,TODO,TODO
-front,hard,,TODO,TODO
-rear,normal,,TODO,TODO
-rear,hard,,TODO,TODO
-left,normal,,TODO,TODO
-left,hard,,TODO,TODO
-right,normal,,TODO,TODO
-right,hard,,TODO,TODO
+front,normal,25,trung bình,"Lấy 25 frame đại diện từ các cảnh bình thường của camera trước, ưu tiên các đoạn/cảnh khác nhau thay vì lấy nhiều frame liên tiếp trong cùng một cảnh; dùng làm mẫu cơ sở để kiểm tra độ phủ."
+front,hard,25,cao,"Lấy 25 frame từ các cảnh khó của camera trước, tập trung vào méo fisheye, đối tượng ở vùng rìa, che khuất và vùng chồng lấn; các frame liên tiếp trong cùng một cảnh chỉ được xem là một nguồn ca và không tính như nhiều ca độc lập."
+rear,normal,25,trung bình,"Lấy 25 frame đại diện từ các cảnh bình thường của camera sau, phân tán giữa các cảnh/đoạn khác nhau để tránh tương quan do lấy nhiều frame liên tiếp; duy trì độ phủ cơ sở."
+rear,hard,25,cao,"Lấy 25 frame từ các cảnh khó của camera sau, ưu tiên che khuất, méo hình, đối tượng ở vùng rìa và vùng chồng lấn; chọn đại diện giữa các cảnh thay vì đếm chuỗi frame liên tiếp là các ca độc lập."
+left,normal,25,trung bình,"Lấy 25 frame đại diện từ các cảnh bình thường của camera trái, phân tán giữa các cảnh khác nhau để giảm trùng lặp thông tin giữa các frame liên tiếp."
+left,hard,25,cao,"Lấy 25 frame từ các cảnh khó của camera trái, tập trung vào méo fisheye mạnh, che khuất, đối tượng ở vùng bên và vùng chồng lấn; mỗi cảnh/đoạn liên tiếp được xem là một nguồn ca cần review thay vì nhiều ca độc lập."
+right,normal,25,trung bình,"Lấy 25 frame đại diện từ các cảnh bình thường của camera phải, phân tán theo cảnh/đoạn và tránh lấy dày nhiều frame liên tiếp từ cùng một tình huống."
+right,hard,25,cao,"Lấy 25 frame từ các cảnh khó của camera phải, tập trung vào méo fisheye, che khuất, vùng rìa và các tình huống chồng lấn; ưu tiên đa dạng cảnh thay vì coi các frame liên tiếp của cùng cảnh là các ca độc lập."

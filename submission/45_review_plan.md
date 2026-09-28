@@ -1,0 +1,17 @@
+# Kế hoạch review từ lỗi quan sát được
+
+Từ `findings.csv` và `zone_table.md`, chọn **hai lát cắt của bài ADASIND một camera** cần review trước. Bảng này giải thích dữ liệu thật bạn vừa làm; nó không thay cho kế hoạch bốn camera giả lập ở `45_sampling_plan.csv`.
+
+| Lát cắt / frame | Số ca và loại lỗi | Vì sao review trước | Bằng chứng cần giữ |
+|---|---|---|---|
+| `adasind_006840.jpg` — B1, tập trung vào `center` | **15 ca** được ghi nhận trong findings: `WRONG_CLASS` (7), `MISSING` (3), `SPURIOUS` (1), `IGNORE_SCOPE` (1), cùng các ca chẩn đoán model/annotation liên quan trong block B1 | Đây là frame có mật độ lỗi cao và thể hiện đồng thời nhiều failure mode: annotation sai class (`L2+R4`), model bỏ sót object (`L3+R7`, `L4+R1`, `L9+R6`) và model nhầm class (`M3`, `M6`, `M8`, `M9`, `M10`, `M13`). Vì vậy frame này giúp review cả chất lượng annotation lẫn lỗi của model trong cùng một cảnh | Ảnh gốc/overlay của `adasind_006840.jpg`; các dòng findings có `object_ref=L2+R4`, `L3+R7`, `L4+R1`, `L9+R6`, `M3`, `M6`, `M8`, `M9`, `M10`, `M13`; `rule_id` R03/R04; và case `L1` theo R09 |
+| `adasind_019560.jpg` — C0 | **3 ca** trong findings: `SPURIOUS` (2) và `MISSING` (1), với `object_ref=L4`, `L5`, `R5` | Đây là lát cắt có lỗi annotation rõ ràng và liên quan trực tiếp đến quy tắc gán object hai bánh. `L4` và `L5` bị đánh dấu `SPURIOUS` vì tách rider khỏi phương tiện; `R5` là `MISSING` đối với một `ThreeWheeler` đủ kích thước. Review frame này giúp kiểm tra tính nhất quán của quy tắc object-level trước khi mở rộng review sang dữ liệu giả lập | Ảnh gốc/overlay của `adasind_019560.jpg`; findings với `object_ref=L4`, `L5`, `R5`; `rule_id` R03 và R01/R04; đặc biệt giữ evidence mô tả quan hệ rider–Bike/ThreeWheeler |
+
+**Giới hạn của kết luận từ ba frame ADASIND:**  
+Các finding hiện có chỉ đến từ **ba frame ADASIND** (`adasind_006840.jpg`, `adasind_019560.jpg` và `adasind_056040.jpg`). Vì vậy, các lỗi quan sát được mới cho thấy **các failure mode cần review**, chưa đủ để suy ra tỷ lệ lỗi của toàn bộ ADASIND, tỷ lệ lỗi theo camera/zone, hay nguyên nhân chi phối toàn bộ tập dữ liệu. Ngoài ra, một số finding là chẩn đoán `E4_model_domain` hoặc `E0_reference_defect`, nên cần phân biệt lỗi model với lỗi annotation/reference thay vì gộp tất cả thành lỗi dữ liệu.
+
+## Chuyển sang kế hoạch bốn camera giả lập
+
+Cách soát độ phủ của 200 frame ở `45_sampling_plan.csv` là kiểm tra mẫu theo **camera, zone/block và loại tình huống**, đồng thời đánh dấu các frame thuộc cùng một cảnh hoặc một đoạn liên tiếp để tránh coi nhiều frame liên tiếp là nhiều ca độc lập. Với các frame liên tiếp có nội dung gần như giống nhau, nên giữ một hoặc một số frame đại diện; phần còn lại được xem là cùng một cụm cảnh khi review. Sau đó đối chiếu số lượng frame được chọn với các nhóm trong `45_sampling_plan.csv` để phát hiện nhóm nào chưa có đại diện hoặc bị lấy mẫu quá tập trung.
+
+Kế hoạch 200 frame chỉ dùng để **tìm và phủ các trường hợp cần soi**. Nó chưa đo được tỷ lệ lỗi vì mẫu này là kế hoạch review có chủ đích chứ không phải một mẫu ngẫu nhiên được thiết kế để ước lượng prevalence/error rate. Đặc biệt, nếu một cảnh có nhiều frame liên tiếp hoặc một failure mode được cố ý lấy mẫu nhiều hơn, số ca quan sát được sẽ không thể được dùng trực tiếp làm mẫu số để tính tỷ lệ lỗi của toàn bộ bốn-camera dataset.
